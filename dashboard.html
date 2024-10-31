@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | ACPSSC Social Media Management</title>
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Base Styles */
+        body {
+            display: flex;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #121212 0%, #434343 100%); /* Updated background */
+            color: #c9d1d9;
+            height: 100vh; /* Full height for body */
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            background-color: #1f1f1f;
+            color: #ffffff;
+            width: 240px;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+            position: fixed;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar img {
+            width: 80%;
+            margin: 20px 0;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .sidebar li {
+            margin: 15px 0;
+        }
+
+        .sidebar a {
+            color: #c9d1d9;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .sidebar a i {
+            margin-right: 12px;
+            font-size: 20px;
+            color: #58a6ff;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #3a3a3a;
+            color: #58a6ff;
+            transform: scale(1.02);
+        }
+
+        .sidebar a.active {
+            background-color: #2f2f2f;
+            color: #f78166;
+        }
+
+        .sidebar a.active i {
+            color: #f78166;
+        }
+
+        .toggle-sidebar {
+            display: none;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 240px;
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            transition: margin-left 0.3s ease;
+        }
+
+        .dashboard-header h1 {
+            font-size: 24px;
+            color: #f0f6fc;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #58a6ff;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #f78166;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            color: #f0f6fc;
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.07);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #58a6ff;
+        }
+
+        /* Submission Item Styling */
+        .submission-item {
+            background-color: rgba(255, 255, 255, 0.08);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #58a6ff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mobile-Friendly Sidebar Toggle */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .toggle-sidebar {
+                display: inline-block;
+                padding: 10px;
+                background: #1f1f1f;
+                color: #58a6ff;
+                border: none;
+                font-size: 20px;
+                cursor: pointer;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1001;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 60px;
+            }
+
+            .user-info {
+                position: static;
+                bottom: 20px;
+                right: 20px;
+                background: rgba(255, 255, 255, 0.07);
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                display: flex;
+                align-items: center;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- Sidebar Toggle for Mobile -->
+    <button class="toggle-sidebar" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+
+    <div class="sidebar">
+        <img src="logo.png" alt="ACPSSC Logo">
+        <ul>
+            <li><a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+            <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i>Schedule</a></li>
+            <li><a href="https://forms.gle/jFVL6XwiwrcgrkXY9"><i class="fas fa-file-alt"></i>Content Submission</a></li>
+            <li><a href="https://forms.gle/RVBQdQNytYoYSm9Q7"><i class="fas fa-image"></i>Poster Submission</a></li>
+            <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="dashboard-header">
+            <h1>Welcome to ACPSSC Dashboard</h1>
+        </div>
+        
+        <!-- Existing structure of dashboard.html remains the same -->
+
+<div class="card">
+    <h3>Upcoming Posts Schedule</h3>
+    <div id="compactCalendarContainer" class="compact-calendar-container"></div>
+    <!-- Updated View More Button -->
+<button class="view-more" onclick="location.href='schedule.html'">View More</button>
+
+<!-- CSS for View More Button -->
+<style>
+    .view-more {
+        background: linear-gradient(135deg, #58a6ff, #f78166); /* Gradient background */
+        color: white; /* Text color */
+        border: none; /* No border */
+        padding: 12px 20px; /* Increased padding for a larger button */
+        border-radius: 8px; /* More rounded corners */
+        cursor: pointer; /* Pointer cursor */
+        font-size: 16px; /* Font size */
+        margin-top: 10px; /* Margin on top */
+        transition: background 0.3s, transform 0.2s; /* Transition for background and transform */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    }
+
+    .view-more:hover {
+        background: linear-gradient(135deg, #f78166, #58a6ff); /* Reverse gradient on hover */
+        transform: translateY(-2px); /* Lift effect on hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+    }
+</style>
+
+</div>
+
+<!-- JavaScript for compact calendar -->
+<script>
+    // Sample data for October and November
+    const scheduleData = {
+        'October 2024': [
+            { date: 'Oct 20', title: 'Science Sunday', description: 'Medical Marvels Escape Room' },
+            { date: 'Oct 25', title: 'Friday Anatomy', description: 'Human Body VR Exploration' },
+            { date: 'Oct 26', title: 'Saturday Experience', description: 'Mini Surgery Workshop' }
+        ],
+        'November 2024': [
+            { date: 'Nov 10', title: 'Science Sunday', description: 'Eco Adventure Scavenger Hunt' },
+            { date: 'Nov 15', title: 'Friday Anatomy', description: 'Live Terrarium Building' },
+            { date: 'Nov 23', title: 'Saturday Experience', description: 'Renewable Energy Hackathon' }
+        ]
+    };
+
+    // Function to load a compact calendar view
+    function loadCompactCalendar() {
+        const container = document.getElementById('compactCalendarContainer');
+        container.innerHTML = '';
+        
+        // Creating compact month and event list
+        for (const [month, events] of Object.entries(scheduleData)) {
+            const monthDiv = document.createElement('div');
+            monthDiv.className = 'compact-month';
+            monthDiv.innerHTML = `<h4>${month}</h4>`;
+            
+            events.forEach(event => {
+                const eventDiv = document.createElement('div');
+                eventDiv.className = 'compact-event';
+                eventDiv.innerHTML = `<strong>${event.date}:</strong> ${event.title}<br><span style="color: #58a6ff;">${event.description}</span>`;
+                monthDiv.appendChild(eventDiv);
+            });
+            
+            container.appendChild(monthDiv);
+        }
+    }
+    
+    loadCompactCalendar();
+</script>
+
+<!-- CSS for compact calendar -->
+<style>
+    /* Calendar Styles */
+    .compact-calendar-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding-top: 10px;
+    }
+
+    .compact-month {
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .compact-event {
+        padding: 5px 0;
+        border-left: 3px solid #58a6ff;
+        margin: 3px 0;
+        padding-left: 5px;
+        color: #c9d1d9;
+        font-size: 14px;
+    }
+</style>
+
+
+        <div class="card" id="contentSubmissionsCard">
+            <h3>Recent Submissions</h3>
+            <div id="contentSubmissionsList">Loading content submissions...</div>
+            <div id="posterSubmissionsList">Loading poster submissions...</div>
+        </div>
+
+        <div class="card">
+            <h3>To-Do List</h3>
+            <p>• Suhaib Muntasir Rahman is Requested to Submit the Meme "What is An Offside?" </p>
+            <p>• Muntasir Islam Mahi is Requested to Mail-Back Responses</p>
+            <p>• Rakibul Hasan Rajin is Requested to Submit The Caption of The Next "Science Sunday" on The Topic "Medical Marvels Escape Room" </p>
+            <p>• Tahmid Ul Matin is Requested to Submit The Poster of The Next "Science Sunday" on The Topic "Medical Marvels Escape Room"</p>
+        </div>
+
+        <!-- User Info Card -->
+        <div class="user-info">
+            <img id="userProfilePicture" src="default-profile.png" alt="User Profile Picture">
+            <div>
+                <strong>Logged in as:</strong><br>
+                <span id="usernameDisplay">admin</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Sidebar Toggle -->
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        }
+    </script>
+
+    <!-- External JavaScript file -->
+    <script src="dashboard.js"></script>
+</body>
+</html>

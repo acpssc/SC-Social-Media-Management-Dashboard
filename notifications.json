@@ -1,0 +1,10 @@
+[
+    {
+       "postDate": "2024-11-15",
+       "notificationDate": "2024-11-14",
+       "email": "user@example.com",
+       "message": "Reminder: Scheduled post for Friday Anatomy on Nov 15.",
+       "status": "pending"
+    }
+ ]
+ 
